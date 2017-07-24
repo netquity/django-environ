@@ -8,13 +8,14 @@ import os
 here = os.path.abspath(os.path.dirname(__file__))
 README = io.open(os.path.join(here, 'README.rst'), encoding="utf8").read()
 
-version = '0.4.3'
-author = 'joke2k'
-description = "Django-environ allows you to utilize 12factor inspired environment " \
-              "variables to configure your Django application."
+version = '0.5.0'
+author = 'Netquity'
+description = "Django-environ-docker allows you to utilize 12factor inspired " \
+              "environment variables to configure your Django application with " \
+              "Docker Secrets."
 install_requires = ['django', 'six']
 
-setup(name='django-environ',
+setup(name='django-environ-docker',
       version=version,
       description=description,
       long_description=README,
@@ -40,10 +41,11 @@ setup(name='django-environ',
           'License :: OSI Approved :: MIT License',
           'Framework :: Django'
       ],
-      keywords='django environment variables 12factor',
+      keywords='django environment variables 12factor docker secrets',
       author=author,
-      author_email='joke2k@gmail.com',
-      url='https://github.com/joke2k/django-environ',
+      author_email='hello@netquity.com',
+      url='https://github.com/netquity/django-environ',
+      download_url='https://github.com/netquity/django-environ/archive/0.5.0.tar.gz',
       license='MIT License',
       packages=find_packages(),
       platforms=["any"],
