@@ -636,6 +636,39 @@ class Env(object):
         for key, value in overrides.items():
             cls.ENVIRON.setdefault(key, value)
 
+    @classmethod
+    def read_docker_secrets(cls, **overrides):
+        """Read the files in the Docker Secrets folder into the environment
+
+        The secrets folder is a dict-like structure where for each file:
+            key = filename
+            value = first line of the file
+
+        There is currently no support for dynamically updating individual
+        secrets; the whole application must be reloaded for secrets to be
+        updated.
+
+        Only works for non-binary files.
+        """
+        SECRETS_DIR = '/run/secrets/'
+        if not os.path.exists(SECRETS_DIR):
+            warnings.warn("%s doesn't exist - check that your Docker node "
+                          "is correctly provisioned with secrets." % SECRETS_DIR)
+            return
+
+        for secret_filename in os.listdir(SECRETS_DIR):
+            with open(os.path.join(SECRETS_DIR, secret_filename), 'r') as fl:
+                try:
+                    cls.ENVIRON.setdefault(secret_filename, fl.readline().strip())
+                except IOError:
+                    warnings.warn(
+                        "Error reading %s - if you're not configuring your "
+                        "environment separately, check this." % secret_filename)
+
+        # set defaults
+        for key, value in overrides.items():
+            cls.ENVIRON.setdefault(key, value)
+
 
 class Path(object):
 
